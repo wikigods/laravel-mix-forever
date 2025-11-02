@@ -18,7 +18,7 @@
     },
     "bin": {
         "mix": "./bin/cli.js",
-        "laravel-mix": "./bin/cli.js"
+        "laravel-mix-forever": "./bin/cli.js"
     },
     "repository": "wikigods/laravel-mix-forever",
     "bugs": {
