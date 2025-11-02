@@ -11,10 +11,19 @@
 
 ![Laravel Mix thumbnail](https://repository-images.githubusercontent.com/76991633/43a4fe80-025e-11eb-8b88-bf742e4412a7)
 
-
 Laravel Mix provides a clean, fluent API for defining basic [webpack](http://github.com/webpack/webpack) build steps for your applications. Mix supports several common CSS and JavaScript pre-processors.
 
 If you've ever been confused about how to get started with module bundling and asset compilation, you will love Laravel Mix!
+
+## ⚠️ Important Note about this Package
+
+This package, **`laravel-mix-forever`**, is a [fork](https://github.com/wikigods/laravel-mix-forever) of the popular original `laravel-mix` package by [Jeffrey Way](https://github.com/JeffreyWay/laravel-mix).
+
+**Reason for the Fork:** The original package was not receiving support or updates for specific issues. This fork has been created by [@wikigods](https://github.com/wikigods) to provide maintenance to the community.
+
+**MAIN CHANGE:** This version **only supports Vue 3**. Support for Vue 2 has been removed.
+
+---
 
 ## Documentation
 

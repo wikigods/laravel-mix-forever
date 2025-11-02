@@ -1,6 +1,6 @@
 {
-    "name": "laravel-mix",
-    "version": "6.0.49",
+    "name": "laravel-mix-forever",
+    "version": "1.0.0",
     "description": "The power of webpack, distilled for the rest of us.",
     "main": "src/index.js",
     "types": "types/index.d.ts",
@@ -20,18 +20,24 @@
         "mix": "./bin/cli.js",
         "laravel-mix": "./bin/cli.js"
     },
-    "repository": "JeffreyWay/laravel-mix",
+    "repository": "wikigods/laravel-mix-forever",
     "bugs": {
-        "url": "https://github.com/JeffreyWay/laravel-mix/issues"
+        "url": "https://github.com/wikigods/laravel-mix-forever/issues"
     },
-    "homepage": "https://github.com/JeffreyWay/laravel-mix#readme",
+    "homepage": "https://github.com/wikigods/laravel-mix-forever#readme",
     "keywords": [
         "laravel",
         "webpack",
         "laravel elixir",
         "laravel mix"
     ],
-    "author": "Jeffrey Way",
+    "author": {
+        "name": "wikigods",
+        "url": "https://github.com/wikigods"
+    },
+    "contributors": [
+        "Jeffrey Way"
+    ],
     "license": "MIT",
     "files": [
         "icons",
