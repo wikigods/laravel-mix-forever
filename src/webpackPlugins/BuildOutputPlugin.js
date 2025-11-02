@@ -62,7 +62,7 @@ class BuildOutputPlugin {
                 relatedAssets: this.options.showRelated
             });
 
-            this.heading(`Laravel Mix v${version}`);
+            this.heading(`Laravel Mix Forever v${version}`);
 
             console.log(chalk.green.bold(`✔ Compiled Successfully in ${data.time}ms`));
 
