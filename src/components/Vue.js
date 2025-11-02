@@ -64,7 +64,7 @@ module.exports = class Vue extends Component {
 
         let dependencies = [
             this.version === 2 ? 'vue-template-compiler' : '@vue/compiler-sfc',
-            this.version === 2 ? 'vue-loader@^15.9.8' : 'vue-loader@^16.2.0'
+            this.version === 2 ? 'vue-loader@^15.9.8' : 'vue-loader@^17.4.2'
         ];
 
         if (this.options.extractStyles && this.options.globalStyles) {
@@ -244,7 +244,8 @@ module.exports = class Vue extends Component {
 
         this.context.api.define({
             __VUE_OPTIONS_API__: 'true',
-            __VUE_PROD_DEVTOOLS__: 'false'
+            __VUE_PROD_DEVTOOLS__: 'false',
+            __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
         });
     }
 };
