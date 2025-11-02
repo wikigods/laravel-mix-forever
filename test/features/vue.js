@@ -399,7 +399,8 @@ export function setupVueTests({ version, dir }) {
             .file(`test/fixtures/app/dist/js/app.js`)
             .doesNotContain([
                 'typeof __VUE_OPTIONS_API__',
-                'typeof __VUE_PROD_DEVTOOLS__'
+                'typeof __VUE_PROD_DEVTOOLS__',
+                'typeof __VUE_PROD_HYDRATION_MISMATCH_DETAILS__'
             ]);
     });
 
@@ -419,7 +420,6 @@ export function setupVueTests({ version, dir }) {
             .file(`test/fixtures/app/dist/js/app.js`)
             .contains(['false ? 0 : _vue_shared__']);
     });
-
 }
 
 async function compilerSpy(Mix) {
