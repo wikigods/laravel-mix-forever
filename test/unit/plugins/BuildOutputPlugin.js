@@ -23,5 +23,5 @@ test('The build output table renders as expected', async t => {
         ]
     });
 
-    t.snapshot(`\n${table}\n`);
+    t.snapshot(`\n${table.replace(/\r\n/g, '\\n')}\n`);
 });
