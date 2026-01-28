@@ -10,7 +10,7 @@ import { context } from '../helpers/test.js';
  * @param {import('../../src/Mix.js')} Mix
  */
 export function setupVueAliases(Mix) {
-    const vueModule = 'vue3/dist/vue.cjs.js';
+    const vueModule = 'vue/dist/vue.cjs.js';
     const vueCompiler = '@vue/compiler-dom';
     const vueLoaderModule = 'vue-loader';
 

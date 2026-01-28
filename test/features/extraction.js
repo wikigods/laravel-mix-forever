@@ -14,7 +14,7 @@ test.serial('JS compilation with vendor extraction config', async t => {
 
     mix.js(`test/fixtures/app/src/extract/app.js`, 'js')
         .vue()
-        .extract(['vue3'], 'js/libraries.js');
+        .extract(['vue'], 'js/libraries.js');
 
     await webpack.compile();
 
@@ -23,7 +23,7 @@ test.serial('JS compilation with vendor extraction config', async t => {
     assert().file(`test/fixtures/app/dist/js/app.js`).exists();
 
     // We extracted vue to the library file
-    assert().file(`test/fixtures/app/dist/js/libraries.js`).contains('vue3');
+    assert().file(`test/fixtures/app/dist/js/libraries.js`).contains('vue');
 
     // But not core-js
     assert().file(`test/fixtures/app/dist/js/app.js`).contains('core-js');
@@ -46,7 +46,7 @@ test.serial(
 test.serial('JS compilation with vendor extraction with default config', async t => {
     const { mix, assert, webpack } = context(t);
 
-    mix.js(`test/fixtures/app/src/extract/app.js`, 'js').vue().extract(['vue3']);
+    mix.js(`test/fixtures/app/src/extract/app.js`, 'js').vue().extract(['vue']);
 
     await webpack.compile();
 
@@ -54,7 +54,7 @@ test.serial('JS compilation with vendor extraction with default config', async t
     assert().file(`test/fixtures/app/dist/js/vendor.js`).exists();
     assert().file(`test/fixtures/app/dist/js/app.js`).exists();
 
-    assert().file(`test/fixtures/app/dist/js/vendor.js`).contains('vue3');
+    assert().file(`test/fixtures/app/dist/js/vendor.js`).contains('vue');
 });
 
 test.serial('JS compilation with total vendor extraction', async t => {
@@ -68,7 +68,7 @@ test.serial('JS compilation with total vendor extraction', async t => {
     assert().file(`test/fixtures/app/dist/js/vendor.js`).exists();
     assert().file(`test/fixtures/app/dist/js/app.js`).exists();
 
-    assert().file(`test/fixtures/app/dist/js/vendor.js`).contains('vue3');
+    assert().file(`test/fixtures/app/dist/js/vendor.js`).contains('vue');
     assert().file(`test/fixtures/app/dist/js/vendor.js`).contains('core-js');
 });
 
@@ -218,7 +218,7 @@ test.serial('configurable extractions work', async t => {
 
     mix.extract({
         to: 'js/vendor-vue-lodash.js',
-        libraries: /vue3|lodash/
+        libraries: /vue|lodash/
     });
 
     mix.extract({

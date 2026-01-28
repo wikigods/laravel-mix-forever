@@ -17,8 +17,8 @@ test.serial('the kitchen sink', async t => {
     });
 
     mix.js(`test/fixtures/app/src/js/app.js`, 'js')
-        .extract(['vue'])
         .vue()
+        .extract(['vue'])
         .js(`test/fixtures/app/src/js/another.js`, 'js')
         .sass(`test/fixtures/app/src/sass/app.scss`, 'css')
         .postCss(`test/fixtures/app/src/css/app.css`, 'css/example.css')
@@ -42,6 +42,7 @@ test.serial('the kitchen sink', async t => {
         '/css/example.css': '/css/example.css\\?id=\\w{20}',
         '/js/app.js': '/js/app.js\\?id=\\w{20}',
         '/js/manifest.js': '/js/manifest.js\\?id=\\w{20}',
+        '/js/vendor.js': '/js/vendor.js\\?id=\\w{20}',
         '/somewhere/app.js': '/somewhere/app.js\\?id=\\w{20}',
         '/js/all.js': '/js/all.js\\?id=\\w{20}',
         '/file.js': '/file.js\\?id=\\w{20}'
