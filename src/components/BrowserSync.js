@@ -12,7 +12,7 @@ module.exports = class BrowserSync extends Component {
      * Required dependencies for the component.
      */
     dependencies() {
-        return ['browser-sync', 'browser-sync-webpack-plugin@^2.3.0'];
+        return ['browser-sync', 'browser-sync-webpack-plugin@^2.4.0'];
     }
 
     /**
