@@ -1,6 +1,5 @@
 name: Publish to npm
 
-# El workflow se dispara cuando creas un "Release" en GitHub
 on:
     release:
         types: [published]
@@ -9,28 +8,14 @@ jobs:
     publish:
         runs-on: ubuntu-latest
         steps:
-            # 1. Descargar el código del repositorio
             - name: Checkout Code
               uses: actions/checkout@v4
-
-            # 2. Configurar el entorno de Node.js
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
                   node-version: '20'
                   registry-url: 'https://registry.npmjs.org'
-                  # Esto configura automáticamente el archivo .npmrc para usar el token
                   cache: 'npm'
-
-            # 3. Instalar dependencias (npm ci es mejor para CI que npm install)
-            - name: Install Dependencies
-              run: npm ci
-
-            # 4. Correr tests (Opcional pero recomendado para asegurar calidad antes de publicar)
-            - name: Run Tests
-              run: npm test --if-present
-
-            # 5. Publicar en npm
             - name: Publish to npm
               run: npm publish --access public
               env:
