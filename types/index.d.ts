@@ -4,8 +4,7 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 import * as webpack from 'webpack';
-import { Options } from 'ts-loader';
-import { TransformOptions as BabelConfig } from '@babel/core';
+import { InputOptions as BabelConfig } from '@babel/core';
 import { Options as BrowserSyncConfig } from './browsersync';
 import * as ExtractTypes from './extract';
 import { MixConfig } from './config';
@@ -132,14 +131,18 @@ interface Api {
      *
      * `src` may be a glob pattern
      **/
-    ts(src: string | string[], output: string, options?: Partial<Options>): Api;
+    ts(src: string | string[], output: string, options?: Record<string, unknown>): Api;
 
     /**
      * Compile TypeScript into JS
      *
      * `src` may be a glob pattern
      **/
-    typeScript(src: string | string[], output: string, options?: Partial<Options>): Api;
+    typeScript(
+        src: string | string[],
+        output: string,
+        options?: Record<string, unknown>
+    ): Api;
 
     /**
      * Compile CoffeeScript into JS
@@ -258,8 +261,8 @@ interface Api {
 }
 
 type VueConfig = {
-    /** Which version of Vue to support. Detected automatically if not given. */
-    version?: number;
+    /** Kept for compatibility with existing Vue 3 configuration. */
+    version?: 3;
 
     /** A file to include w/ every vue style block. */
     globalStyles?: false | string | string[] | Record<string, string | string[]> | null;
@@ -291,7 +294,7 @@ interface Api {
     react(config?: ReactConfig): Api;
 
     /**
-     * Enable support for Vue 2 or 3
+     * Enable support for Vue 3
      *
      * The version of Vue in use is detected but may be specified explicitly using `version`
      *

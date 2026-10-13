@@ -1,5 +1,5 @@
-let dotenv = require('dotenv');
 let dotenvExpand = require('dotenv-expand');
+let loadSafeEnv = require('../SafeEnv');
 
 /** @internal */
 class MixDefinitionsPlugin {
@@ -26,7 +26,8 @@ class MixDefinitionsPlugin {
      */
     get env() {
         // Load .env, if it exists, into process.env
-        dotenvExpand.expand(dotenv.config({ path: this.envPath, quiet: true }));
+        const parsed = loadSafeEnv(this.envPath);
+        dotenvExpand.expand({ parsed, processEnv: process.env });
 
         // Take everything from process.env that beings with MIX_
         const regex = /^MIX_/i;

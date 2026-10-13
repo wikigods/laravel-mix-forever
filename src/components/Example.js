@@ -111,7 +111,7 @@ module.exports = class Example {
     /**
      * Babel config to be merged with Mix's defaults.
      *
-     * @return {import("@babel/core").TransformOptions}
+     * @return {import("@babel/core").InputOptions}
      */
     babelConfig() {
         // Example:

@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "module": "esnext",
-        "ignoreDeprecations": "6.0"
+        "module": "esnext"
     }
 }

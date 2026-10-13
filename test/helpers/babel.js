@@ -31,7 +31,7 @@ export function recordConfigsImpl(loader) {
 
     /**
      *
-     * @param {keyof import('@babel/core').TransformOptions} key
+     * @param {keyof import('@babel/core').InputOptions} key
      * @returns {import('@babel/core').ConfigItem[]}
      */
     function getConfigItems(key) {
@@ -47,7 +47,7 @@ export function recordConfigsImpl(loader) {
 
     /**
      *
-     * @param {keyof import('@babel/core').TransformOptions} key
+     * @param {keyof import('@babel/core').InputOptions} key
      * @param {string} name
      * @returns {import('@babel/core').ConfigItem|null}
      */

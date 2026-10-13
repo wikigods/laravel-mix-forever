@@ -67,7 +67,7 @@ class FileCollection {
 
         delete babelConfig.cacheDirectory;
 
-        const result = babel.transform(contents, babelConfig);
+        const result = babel.transformSync(contents, babelConfig);
 
         return result && result.code;
     }

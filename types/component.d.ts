@@ -1,7 +1,7 @@
 // Type definitions for laravel-mix 6.0
 
 import * as webpack from 'webpack';
-import { TransformOptions as BabelConfig } from '@babel/core';
+import { InputOptions as BabelConfig } from '@babel/core';
 import Entry from '../src/builder/Entry';
 
 export type DependencyObject = {

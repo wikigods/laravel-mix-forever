@@ -4,13 +4,10 @@ const VueVersion = require('../VueVersion');
 const AppendVueStylesPlugin = require('../webpackPlugins/Css/AppendVueStylesPlugin');
 
 module.exports = class Vue extends Component {
-    version = 2;
-
     /**
      * @type {import('laravel-mix').VueConfig} options
      */
     options = {
-        version: undefined,
         runtimeOnly: false,
         options: null,
         globalStyles: null,
@@ -34,9 +31,13 @@ module.exports = class Vue extends Component {
             );
         }
 
+        if (options.version !== undefined && Number(options.version) !== 3) {
+            throw new Error('This package supports Vue 3 only. Vue 2 is not supported.');
+        }
+
         Object.assign(this.options, options);
 
-        this.version = new VueVersion(this.context).detect(this.options.version);
+        new VueVersion(this.context).detect();
 
         if (this.options.globalStyles !== undefined) {
             this.context.globalStyles = this.options.globalStyles;
@@ -62,10 +63,7 @@ module.exports = class Vue extends Component {
     dependencies() {
         this.requiresReload = true;
 
-        let dependencies = [
-            this.version === 2 ? 'vue-template-compiler' : '@vue/compiler-sfc',
-            this.version === 2 ? 'vue-loader@^15.9.8' : 'vue-loader@^17.4.2'
-        ];
+        let dependencies = ['@vue/compiler-sfc', 'vue-loader@^17.4.2'];
 
         if (this.options.extractStyles && this.options.globalStyles) {
             dependencies.push('sass-resources-loader');
@@ -99,52 +97,12 @@ module.exports = class Vue extends Component {
         // Alias Vue to its ESM build if the user has not already given an alias
         config.resolve.extensions.push('.vue');
 
-        // Disable es modules for file-loader on Vue 2
-        if (this.version === 2) {
-            for (const rule of config.module.rules || []) {
-                if (typeof rule !== 'object') {
-                    continue;
-                }
-
-                let loaders = rule.use || [];
-
-                if (!Array.isArray(loaders)) {
-                    continue;
-                }
-
-                for (const loader of loaders) {
-                    if (typeof loader !== 'object') {
-                        continue;
-                    }
-
-                    // TODO: This isn't the best check
-                    // We should check that the loader itself is correct
-                    // Not that file-loader is anywhere in it's absolute path
-                    // As this can produce false positives
-                    if (
-                        loader.loader &&
-                        loader.loader.includes('file-loader') &&
-                        loader.options
-                    ) {
-                        // @ts-ignore
-                        loader.options.esModule = false;
-                    }
-                }
-            }
-        }
-
         this.updateChunks();
 
         return config;
     }
 
     aliasPath() {
-        if (this.version === 2) {
-            return this.options.runtimeOnly
-                ? 'vue/dist/vue.runtime.esm.js'
-                : 'vue/dist/vue.esm.js';
-        }
-
         return this.options.runtimeOnly
             ? 'vue/dist/vue.runtime.esm-bundler.js'
             : 'vue/dist/vue.esm-bundler.js';
@@ -238,10 +196,6 @@ module.exports = class Vue extends Component {
      * @internal
      */
     addDefines() {
-        if (this.version === 2) {
-            return;
-        }
-
         this.context.api.define({
             __VUE_OPTIONS_API__: 'true',
             __VUE_PROD_DEVTOOLS__: 'false',

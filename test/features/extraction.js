@@ -78,11 +78,6 @@ test.serial('async chunk splitting works', async t => {
     mix.vue();
     mix.js(`test/fixtures/app/src/extract/app.js`, 'js')
         .extract(['vue', 'lodash', 'core-js'])
-        .options({
-            babelConfig: {
-                plugins: ['@babel/plugin-syntax-dynamic-import']
-            }
-        })
         .version();
 
     await webpack.compile();
@@ -103,12 +98,6 @@ test.serial('async chunks are placed in the right directory', async t => {
     mix.vue();
     mix.js(`test/fixtures/app/src/extract/app.js`, 'dist/js');
     mix.extract();
-    mix.options({
-        babelConfig: {
-            plugins: ['@babel/plugin-syntax-dynamic-import']
-        }
-    });
-
     await webpack.compile();
 
     assert().file(`test/fixtures/app/dist/js/app.js`).exists();
@@ -190,11 +179,6 @@ test.serial('multiple extractions work', async t => {
     mix.js(`test/fixtures/app/src/extract/app.js`, 'js')
         .extract(['vue', 'lodash'], 'js/vendor-vue-lodash.js')
         .extract(['core-js'], 'js/vendor-core-js.js')
-        .options({
-            babelConfig: {
-                plugins: ['@babel/plugin-syntax-dynamic-import']
-            }
-        })
         .version();
 
     await webpack.compile();

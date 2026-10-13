@@ -12,7 +12,7 @@ const babel = require('@babel/core');
  * @property {BabelTargets} [targets]
  */
 
-/** @typedef {import("@babel/core").TransformOptions & AdditionalBabelOptions} BabelOptions */
+/** @typedef {import("@babel/core").InputOptions & AdditionalBabelOptions} BabelOptions */
 
 class BabelConfig {
     /**
@@ -64,10 +64,10 @@ class BabelConfig {
      * Get the babel config setup when using mix.babelConfig()
      *
      * @internal
-     * @param {import('@babel/core').TransformOptions} customOptions
+     * @param {import('@babel/core').InputOptions} customOptions
      */
     getCustomConfig(customOptions) {
-        const config = babel.loadPartialConfig(customOptions);
+        const config = babel.loadPartialConfigSync(customOptions);
 
         return config ? config.options : {};
     }
@@ -80,11 +80,11 @@ class BabelConfig {
     mergeAll(configs) {
         const options = configs.reduce((prev, current) => {
             const presets = [...(prev.presets || []), ...(current.presets || [])].map(
-                preset => babel.createConfigItem(preset, { type: 'preset' })
+                preset => babel.createConfigItemSync(preset, { type: 'preset' })
             );
 
             const plugins = [...(prev.plugins || []), ...(current.plugins || [])].map(
-                preset => babel.createConfigItem(preset, { type: 'plugin' })
+                preset => babel.createConfigItemSync(preset, { type: 'plugin' })
             );
 
             return Object.assign(prev, current, { presets, plugins });
@@ -103,14 +103,14 @@ class BabelConfig {
      * Filter merged presets or plugins
      *
      * @internal
-     * @param {import("@babel/core").ConfigItem[]} items
-     * @returns {import("@babel/core").ConfigItem[]}
+     * @param {import("@babel/core").ConfigItem<unknown>[]} items
+     * @returns {import("@babel/core").ConfigItem<unknown>[]}
      */
     filterConfigItems(items) {
         /**
          *
-         * @param {import("@babel/core").ConfigItem[]} unique
-         * @param {import("@babel/core").ConfigItem} item
+         * @param {import("@babel/core").ConfigItem<unknown>[]} unique
+         * @param {import("@babel/core").ConfigItem<unknown>} item
          */
         function dedupe(unique, item) {
             if (item.file != null) {
@@ -128,7 +128,7 @@ class BabelConfig {
             return [...unique, item];
         }
 
-        /** @type {import("@babel/core").ConfigItem[]} */
+        /** @type {import("@babel/core").ConfigItem<unknown>[]} */
         let unique = [];
 
         for (const configItem of items) {
@@ -156,14 +156,8 @@ class BabelConfig {
                 ['@babel/preset-env', { modules: false, forceAllTransforms: true }]
             ],
             plugins: [
-                '@babel/plugin-syntax-dynamic-import',
                 '@babel/plugin-transform-object-rest-spread',
-                [
-                    '@babel/plugin-transform-runtime',
-                    {
-                        helpers: false
-                    }
-                ]
+                '@babel/plugin-transform-runtime'
             ]
         };
     }

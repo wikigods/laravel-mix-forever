@@ -19,3 +19,11 @@ test('it fetches the MIX_ definitions properly', t => {
     t.is(MIX_TESTING, definitions['process.env.MIX_TESTING']);
     t.is(NODE_ENV, definitions['process.env.NODE_ENV']);
 });
+
+test('it rejects command substitution in .env files', t => {
+    let plugin = new MixDefinitionsPlugin(path.resolve(__dirname, 'command.env'));
+
+    t.throws(() => plugin.env, {
+        message: /Command substitution is disabled in \.env files for security/
+    });
+});

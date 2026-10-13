@@ -4,7 +4,7 @@ import path from 'path';
 import File from '../../src/File.js';
 import { context } from '../helpers/test.js';
 
-test('it applies a rule for js, cjs, mjs, and tsx extensions', async t => {
+test('it applies a rule for js, cjs, and mjs extensions', async t => {
     const { mix, assert, webpack } = context(t);
 
     mix.js('js/app.js', 'dist/js');
@@ -19,12 +19,6 @@ test('it applies a rule for js, cjs, mjs, and tsx extensions', async t => {
         .exists();
     assert()
         .rule(config, rule => rule.test.test('file.mjs'))
-        .exists();
-    assert()
-        .rule(config, rule => rule.test.test('file.ts'))
-        .exists();
-    assert()
-        .rule(config, rule => rule.test.test('file.tsx'))
         .exists();
 });
 

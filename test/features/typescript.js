@@ -21,37 +21,33 @@ test('mix.ts()', async t => {
         .exists();
 });
 
-test('it is able to apply options to ts-loader', async t => {
+test('it applies TypeScript preset options to Babel', async t => {
     const { mix, webpack, assert } = context(t);
 
-    mix.ts(`test/fixtures/app/src/dynamic-ts/app.ts`, 'dist', { transpileOnly: true });
+    mix.ts(`test/fixtures/app/src/dynamic-ts/app.ts`, 'dist', {
+        onlyRemoveTypeImports: true
+    });
 
     const config = await webpack.buildConfig();
     const loader = assert()
-        .loader(config, /ts-loader/)
+        .rule(config, rule => rule.test.test('file.ts'))
+        .loader(/babel-loader/)
         .get();
 
-    t.truthy(loader && loader.options && loader.options.transpileOnly);
+    t.true(
+        loader.options.presets.some(
+            preset =>
+                Array.isArray(preset) &&
+                preset[0] === '@babel/preset-typescript' &&
+                preset[1].onlyRemoveTypeImports === true
+        )
+    );
 });
 
 test.serial('it compiles TypeScript with dynamic import', async t => {
     const { mix, webpack, assert } = context(t);
 
-    mix.ts(`test/fixtures/app/src/dynamic-ts/dynamic.ts`, 'js', {
-        transpileOnly: true,
-
-        // These would normally be in tsconfig.json but are here because
-        // we'll eventually have one and the options won't match these
-        compilerOptions: {
-            // @ts-ignore
-            target: 'esnext',
-            // @ts-ignore
-            module: 'esnext',
-            // @ts-ignore
-            moduleResolution: 'node',
-            noEmit: false
-        }
-    });
+    mix.ts(`test/fixtures/app/src/dynamic-ts/dynamic.ts`, 'js');
 
     await webpack.compile();
 

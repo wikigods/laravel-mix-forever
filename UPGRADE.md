@@ -1,16 +1,35 @@
+# Upgrade notes for 2.0
+
+## Babel 8 and TypeScript 7
+
+- Run Node.js `22.20.0` or newer in the 22.x line, or `24.11.0` or newer. Babel 8 is ESM-only and requires one of these supported Node ranges.
+- `mix.ts()` now strips TypeScript syntax with Babel's TypeScript preset. Webpack no longer performs TypeScript type checking; run `tsc --noEmit` separately when you need type checking.
+- The third argument to `mix.ts()` accepts Babel TypeScript preset options. Options that belonged to `ts-loader`, such as `transpileOnly` and `compilerOptions`, are no longer supported.
+- Babel 8 parses dynamic `import()` directly. Remove `@babel/plugin-syntax-dynamic-import` from project Babel configuration. `@babel/preset-env` no longer accepts `useBuiltIns`; use `babel-plugin-polyfill-corejs3` when you need Babel-managed polyfills.
+
+## Environment file security
+
+Mix rejects command substitution such as `$(...)` in `.env` files before loading them. Review `.env` files and inherited environment values before building a project you do not trust. This package treats `.env` files as data and does not allow them to launch commands.
+
+## Vue 3 only
+
+Vue 2 support and its duplicate feature test suite have been removed. Install Vue 3, `@vue/compiler-sfc`, and `vue-loader` 17 or newer. The `version: 3` option remains accepted for compatibility; `version: 2` now produces an error.
+
+---
+
 ## Upgrade to Mix 6
 
--   [Review Your Dependencies](#review-your-dependencies)
--   [Check Your Node Version](#check-your-node-version)
--   [Update Your NPM Scripts](#update-your-npm-scripts)
--   [Watch Ignores Node_Modules](#watch-ignores-node-modules)
--   [API for JavaScript Frameworks](#api-for-javascript-frameworks)
--   [Vue Configuration](#vue-configuration)
--   [Legacy Node Polyfills](#legacy-node-polyfills)
--   [Autoprefixer Options](#autoprefixer-options)
--   [Unused Library Extraction](#unused-library-extraction)
--   [Automatically Ignored Node Modules](#automatically-ignore-node-modules)
--   [Did We Miss Something?](#did-we-miss-something)
+- [Review Your Dependencies](#review-your-dependencies)
+- [Check Your Node Version](#check-your-node-version)
+- [Update Your NPM Scripts](#update-your-npm-scripts)
+- [Watch Ignores Node_Modules](#watch-ignores-node-modules)
+- [API for JavaScript Frameworks](#api-for-javascript-frameworks)
+- [Vue Configuration](#vue-configuration)
+- [Legacy Node Polyfills](#legacy-node-polyfills)
+- [Autoprefixer Options](#autoprefixer-options)
+- [Unused Library Extraction](#unused-library-extraction)
+- [Automatically Ignored Node Modules](#automatically-ignore-node-modules)
+- [Did We Miss Something?](#did-we-miss-something)
 
 ```bash
 npm install laravel-mix@latest
@@ -94,12 +113,7 @@ mix.js('resources/js/app.js', 'public/js').vue();
 ```
 
 Think of this as your way of saying, "_I want to compile my JavaScript **and also** turn on Vue support._" Mix will
-automatically detect whether you have Vue 2 or 3 installed, based on your dependencies list. However, if you'd rather be
-explicit...
-
-```js
-mix.js('resources/js/app.js', 'public/js').vue({ version: 2 });
-```
+Vue 2 is no longer supported. Install Vue 3 and `@vue/compiler-sfc` to compile Vue single-file components.
 
 The same is true for React.
 

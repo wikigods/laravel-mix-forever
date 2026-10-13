@@ -57,7 +57,7 @@ module.exports = class JavaScript extends Component {
     webpackRules() {
         return [
             {
-                test: /\.(cjs|mjs|jsx?|tsx?)$/,
+                test: /\.(cjs|mjs|jsx?)$/,
                 exclude: /(node_modules|bower_components)/,
                 use: [
                     {

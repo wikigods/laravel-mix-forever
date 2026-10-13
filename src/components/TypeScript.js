@@ -27,25 +27,34 @@ class TypeScript extends JavaScript {
      * Required dependencies for the component.
      */
     dependencies() {
-        return ['ts-loader', 'typescript'].concat();
+        return ['@babel/preset-typescript'];
     }
 
     /**
      * webpack rules to be appended to the master config.
      */
     webpackRules() {
+        const babelOptions = this.context.config.babel();
+        const typescriptOptions = {
+            ignoreExtensions: true,
+            ...this.options
+        };
+
+        babelOptions.presets.push(['@babel/preset-typescript', typescriptOptions]);
+
         return [
             ...super.webpackRules(),
             {
                 test: /\.tsx?$/,
-                loader: this.context.resolve('ts-loader'),
                 exclude: /node_modules/,
-                options: Object.assign(
-                    {},
-                    // TODO: Maybe move to Vue plugin?
-                    { appendTsSuffixTo: [/\.vue$/] },
-                    this.options
-                )
+                loader: this.context.resolve('babel-loader'),
+                options: babelOptions
+            },
+            {
+                test: /\.vue$/,
+                resourceQuery: /lang=ts/,
+                loader: require.resolve('../loaders/typescript-vue'),
+                options: babelOptions
             }
         ];
     }

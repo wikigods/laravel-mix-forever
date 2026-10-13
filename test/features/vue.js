@@ -27,10 +27,9 @@ export function setupVueAliases(Mix) {
 
 /**
  * @param {object} opts
- * @param {number} opts.version
  * @param {string} opts.dir
  **/
-export function setupVueTests({ version, dir }) {
+export function setupVueTests({ dir }) {
     /** @type {any} */
     let compiler;
 
@@ -225,6 +224,17 @@ export function setupVueTests({ version, dir }) {
             .exists();
     });
 
+    test.serial('it compiles Vue 3 SFC scripts written in TypeScript', async t => {
+        const { assert, mix, webpack } = context(t);
+
+        mix.vue();
+        mix.ts(`test/fixtures/app/src/${dir}/TypeScriptApp.ts`, 'js');
+
+        await webpack.compile();
+
+        assert().file('test/fixtures/app/dist/js/TypeScriptApp.js').exists();
+    });
+
     test.serial('it extracts vue .scss styles to a dedicated file', async t => {
         const { assert, mix, webpack } = context(t);
 
@@ -274,9 +284,8 @@ export function setupVueTests({ version, dir }) {
 
         // Given the user has a postcss.config.js file with the postcss-custom-properties plugin...
         await fs().stub({
-            [path.resolve(
-                'postcss.config.cjs'
-            )]: `module.exports = { plugins: [require('postcss-custom-properties')] };`
+            [path.resolve('postcss.config.cjs')]:
+                `module.exports = { plugins: [require('postcss-custom-properties')] };`
         });
 
         mix.vue({ extractStyles: 'css/components.css' });
@@ -311,9 +320,8 @@ export function setupVueTests({ version, dir }) {
 
         // Given the user has a postcss.config.js file with the postcss-custom-properties plugin...
         await fs().stub({
-            [path.resolve(
-                'postcss.config.cjs'
-            )]: `module.exports = { plugins: [require('postcss-custom-properties')] };`
+            [path.resolve('postcss.config.cjs')]:
+                `module.exports = { plugins: [require('postcss-custom-properties')] };`
         });
 
         mix.vue({

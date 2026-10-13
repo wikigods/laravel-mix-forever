@@ -1,7 +1,5 @@
 const js = require('@eslint/js');
 const globals = require('globals');
-const tsParser = require('@typescript-eslint/parser');
-
 module.exports = [
     {
         ignores: [
@@ -14,9 +12,8 @@ module.exports = [
     {
         files: ['**/*.js'],
         languageOptions: {
-            ecmaVersion: 2021,
+            ecmaVersion: 'latest',
             sourceType: 'module',
-            parser: tsParser,
             globals: globals.node
         },
         rules: {

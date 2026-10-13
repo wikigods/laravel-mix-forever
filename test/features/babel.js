@@ -26,24 +26,16 @@ test.serial('Default Babel plugins/presets are set', async t => {
     t.true(babelConfig.hasPreset('@babel/preset-env'));
 });
 
-test.serial('Babel reads the project .babelrc / config files', async t => {
-    const { mix, webpack, disk, fs, babelConfig } = context(t);
+test.serial('Babel parses dynamic imports without a syntax plugin', async t => {
+    const { mix, assert, webpack, babelConfig } = context(t);
 
-    // Setup a test .babelrc file.
-    const configFile = disk.join('/.testbabelrc');
-
-    await fs().stub({
-        [configFile]: '{ "plugins": ["@babel/plugin-syntax-dynamic-import"] }'
-    });
-
-    mix.js(`test/fixtures/app/src/js/app.js`, 'js');
-    mix.options({
-        babelConfig: { configFile }
-    });
+    mix.js(`test/fixtures/app/src/dynamic/dynamic.js`, 'js');
 
     await webpack.compile();
 
-    t.true(babelConfig.hasPlugin('@babel/plugin-syntax-dynamic-import'));
+    t.false(babelConfig.hasPlugin('@babel/plugin-syntax-dynamic-import'));
+    assert().file('test/fixtures/app/dist/js/dynamic.js').exists();
+    assert().file('test/fixtures/app/dist/js/named.js').exists();
 });
 
 test.serial('Babel config files can be read from the project root', async t => {
@@ -55,7 +47,7 @@ test.serial('Babel config files can be read from the project root', async t => {
     // The root path is _already_ set to the root of the disk during test setup
     await fs().stub({
         [Mix.paths.root('babel.config.cjs')]:
-            'module.exports = { "plugins": ["@babel/plugin-syntax-json-strings"] }',
+            'module.exports = { "plugins": ["@babel/plugin-transform-class-properties"] }',
         [Mix.paths.root('.babelrc')]:
             '{ "plugins": ["@babel/plugin-transform-sticky-regex"] }'
     });
@@ -64,7 +56,7 @@ test.serial('Babel config files can be read from the project root', async t => {
 
     await webpack.compile();
 
-    t.true(babelConfig.hasPlugin('@babel/plugin-syntax-json-strings'));
+    t.true(babelConfig.hasPlugin('@babel/plugin-transform-class-properties'));
     t.true(babelConfig.hasPlugin('@babel/plugin-transform-sticky-regex'));
 });
 
@@ -78,7 +70,7 @@ test.serial(
 
         await fs().stub({
             [configFile]:
-                '{ "presets": [ ["@babel/preset-env", {"useBuiltIns": "usage", "corejs": 3}] ] }'
+                '{ "presets": [ ["@babel/preset-env", {"targets": {"node": "current"}}] ] }'
         });
 
         mix.js(`test/fixtures/app/src/js/app.js`, 'js');
@@ -93,7 +85,7 @@ test.serial(
 
         t.is(1, presets.length);
         t.true(babelConfig.hasPreset('@babel/preset-env'));
-        t.deepEqual({ useBuiltIns: 'usage', corejs: 3 }, presets[0].options);
+        t.deepEqual({ targets: { node: 'current' } }, presets[0].options);
     }
 );
 

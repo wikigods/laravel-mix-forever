@@ -4,7 +4,7 @@ let ComponentRegistrar = require('./components/ComponentRegistrar');
 let Components = require('./components/Components');
 let Dependencies = require('./Dependencies');
 let Dispatcher = require('./Dispatcher');
-let Dotenv = require('dotenv');
+let loadSafeEnv = require('./SafeEnv');
 let File = require('./File');
 let HotReloading = require('./HotReloading');
 let Manifest = require('./Manifest');
@@ -99,8 +99,8 @@ class Mix {
 
         this.booted = true;
 
-        // Load .env
-        Dotenv.config({ quiet: true });
+        // Load .env only after rejecting command substitutions.
+        loadSafeEnv(this.paths.root('.env'));
 
         // If we're using Laravel set the public path by default
         if (this.sees('laravel')) {
