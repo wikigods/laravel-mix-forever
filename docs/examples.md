@@ -51,13 +51,6 @@ mix.js('src/app.js', 'js')
    .vue();
 ```
 
-### Compile JavaScript and Set an Explicit Vue Version
-
-```js
-mix.js('src/app.js', 'js')
-   .vue({ version: 3 });
-```
-
 ### Extract Vue Single File Component CSS to its Own File
 
 ```js
@@ -77,6 +70,13 @@ mix.js('src/app.js', 'js')
 ```js
 mix.js('src/app.js', 'js')
    .react();
+```
+
+### Compile JavaScript With Support for Svelte
+
+```js
+mix.js('src/app.js', 'js')
+   .svelte();
 ```
 
 ### Extract React Component CSS to its Own File when in Production build

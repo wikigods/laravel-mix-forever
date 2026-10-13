@@ -85,6 +85,24 @@ export function setupVueTests({ dir }) {
         t.true(dependencies.includes(compilerName));
     });
 
+    test('Vue hydration mismatch details are disabled by default and configurable', async t => {
+        const { mix, Mix } = context(t);
+
+        mix.vue();
+        t.is(
+            Mix.components.get('define').definitions
+                .__VUE_PROD_HYDRATION_MISMATCH_DETAILS__,
+            'false'
+        );
+
+        mix.vue({ hydrationMismatchDetails: true });
+        t.is(
+            Mix.components.get('define').definitions
+                .__VUE_PROD_HYDRATION_MISMATCH_DETAILS__,
+            'true'
+        );
+    });
+
     test('it switches to vue-style-loader when requested and not extracting styles', async t => {
         const { assert, mix, webpack } = context(t);
 

@@ -16,6 +16,10 @@
 
 - [JavaScript Bundling](javascript.md)
 - [Vue Support](vue.md)
+- [Svelte Support](svelte.md)
+- [Inertia.js with Webpack](inertia.md)
+- [Livewire](livewire.md)
+- [Ziggy with Mix/Webpack](ziggy.md)
 - [TypeScript](typescript.md)
 - [File Versioning](versioning.md)
 - [Code Splitting](extract.md)

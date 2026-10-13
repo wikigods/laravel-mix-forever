@@ -35,6 +35,7 @@ module.exports = function (mix) {
 
         stats: {
             preset: 'errors-warnings',
+            children: false,
             performance: mix.inProduction()
         },
 

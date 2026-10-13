@@ -91,6 +91,22 @@ test('Generic Sass rules are applied', async t => {
         .exists();
 });
 
+test('Sass defaults suppress the configured deprecations and remain overridable', async t => {
+    const { mix, webpack } = context(t);
+
+    mix.sass('test/fixtures/app/src/sass/app.scss', 'css', {
+        sassOptions: { silenceDeprecations: ['import'] }
+    });
+
+    const config = await webpack.buildConfig();
+    const sassLoader = config.module.rules
+        .find(rule => String(rule.test).includes('scss'))
+        .use.find(loader => String(loader.loader).includes('sass-loader'));
+
+    t.deepEqual(sassLoader.options.sassOptions.silenceDeprecations, ['import']);
+    t.is(sassLoader.options.sassOptions.outputStyle, 'expanded');
+});
+
 test('Generic Less rules are applied', async t => {
     const { assert, mix, webpack } = context(t);
 

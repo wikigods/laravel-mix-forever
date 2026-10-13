@@ -43,6 +43,10 @@ Easy!
 Behind the scenes, Laravel Mix of course defers to webpack's `sass-loader` to load and compile your Sass files.
 From time to time, you may need to override the default options that we pass to it. Use the third argument to `mix.sass()` in these scenarios.
 
+Mix already suppresses Sass's `color-functions`, `global-builtin`, and `import`
+deprecation notices by default. You can override these values in `sassOptions`
+when your project needs different behavior.
+
 ```js
 mix.sass('src/app.scss', 'dist', {
     sassOptions: {

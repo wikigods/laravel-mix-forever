@@ -13,7 +13,7 @@ mix.ts('src/app.ts', 'dist');
 mix.typeScript('src/app.ts', 'dist');
 ```
 
-TypeScript support in Mix is built on top of the existing `mix.js()` feature set. In fact, it's as simple as updating your `mix.js()` calls to `mix.ts()`. Doing so will trigger the installation of all necessary TypeScript packages, as well as an update to the generated webpack configuration to add the necessary `ts-loader` webpack loader.
+TypeScript support in Mix is built on top of the existing `mix.js()` feature set. Updating your `mix.js()` calls to `mix.ts()` adds Babel's TypeScript preset to the generated Webpack configuration. Run `tsc --noEmit` separately when you want static type checking; Mix does not perform type checking during bundling.
 
 ### Example TSConfig
 
@@ -44,35 +44,6 @@ mix.ts('resources/js/app.ts', 'public/js').vue();
 ```
 
 Next, update your single file component(s) to allow TypeScript to infer types.
-
-##### Using Vue 2
-
-```vue
-<script lang="ts">
-    // resources/js/components/greet.vue
-
-    // use Vue.extend to enable type inference
-    export default Vue.extend({
-      data () {
-        return {
-          message: 'Hello'
-        }
-      },
-
-      computed: {
-        greeting(): string {
-          return this.greet() + '!'
-        }
-      },
-
-      methods: {
-        greet(): string {
-          return this.message + ' world'
-        }
-      }
-    });
-</script>
-```
 
 ##### Using Vue 3
 

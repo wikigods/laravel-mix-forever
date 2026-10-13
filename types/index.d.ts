@@ -264,6 +264,9 @@ type VueConfig = {
     /** Kept for compatibility with existing Vue 3 configuration. */
     version?: 3;
 
+    /** Include production hydration mismatch details (disabled by default). */
+    hydrationMismatchDetails?: boolean;
+
     /** A file to include w/ every vue style block. */
     globalStyles?: false | string | string[] | Record<string, string | string[]> | null;
 
@@ -280,9 +283,34 @@ type VueConfig = {
     options?: VueLoaderOptions;
 };
 
+type ZiggyConfig = {
+    /** Relative output path passed to `php artisan ziggy:generate`. */
+    path?: string;
+    /** Generate routes in production builds. Disabled by default in production. */
+    enabled?: boolean;
+    /** Route files to watch while Mix runs in watch mode. Set false to disable. */
+    watch?: string | string[] | false;
+};
+
+interface Api {
+    /** Generate Ziggy's Laravel route config before Webpack builds. */
+    ziggy(config?: ZiggyConfig): Api;
+}
+
 type ReactConfig = {
     /** Whether or not to extract React styles. If given a string the name of the file to extract to. */
     extractStyles?: boolean | string;
+};
+
+type SvelteConfig = {
+    /** Svelte compiler options passed to svelte-loader. */
+    compilerOptions?: Record<string, any>;
+
+    /** Preprocessor configuration passed to svelte-loader. */
+    preprocess?: any;
+
+    /** Additional options passed to svelte-loader. */
+    [option: string]: any;
 };
 
 // Third-party support "feature flags"
@@ -301,13 +329,23 @@ interface Api {
      * Pass options to configure global styles and Vue component style extraction
      **/
     vue(config?: VueConfig): Api;
+
+    /** Enable support for Svelte single-file components. */
+    svelte(config?: SvelteConfig): Api;
 }
 
 declare type _Component = Component;
 
 declare const exports: Api;
 declare namespace exports {
-    export { Api, ReactConfig, VueConfig, _Component as Component };
+    export {
+        Api,
+        ReactConfig,
+        SvelteConfig,
+        VueConfig,
+        ZiggyConfig,
+        _Component as Component
+    };
 }
 
 declare global {

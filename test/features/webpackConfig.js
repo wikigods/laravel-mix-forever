@@ -12,6 +12,17 @@ test('Custom webpack config can be merged', async t => {
     t.deepEqual(['foo'], config.externals);
 });
 
+test('Webpack child stats are hidden by default and can be enabled explicitly', async t => {
+    const { mix, webpack } = context(t);
+
+    const defaults = await webpack.buildConfig();
+    t.false(defaults.stats.children);
+
+    mix.webpackConfig({ stats: { children: true } });
+    const configured = await webpack.buildConfig();
+    t.true(configured.stats.children);
+});
+
 test('Custom webpack config can be merged as a callback function', async t => {
     const { mix, webpack } = context(t);
 

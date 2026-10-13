@@ -14,7 +14,7 @@ Begin by installing Laravel Mix through NPM or Yarn.
 ```bash
 mkdir my-app && cd my-app
 npm init -y
-npm install laravel-mix --save-dev
+npm install laravel-mix-forever --save-dev
 ```
 
 ### Step 2. Create a Mix Configuration File
@@ -40,7 +40,7 @@ Open `webpack.mix.js` and add the following code:
 ```js
 // webpack.mix.js
 
-let mix = require('laravel-mix');
+let mix = require('laravel-mix-forever');
 
 mix.js('src/app.js', 'dist').setPublicPath('dist');
 ```

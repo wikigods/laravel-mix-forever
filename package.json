@@ -94,10 +94,10 @@
         "yargs": "^18.2.0"
     },
     "devDependencies": {
-        "@eslint/js": "^10.0.1",
-        "@babel/plugin-transform-unicode-property-regex": "^8.0.1",
         "@babel/plugin-transform-class-properties": "^8.0.1",
+        "@babel/plugin-transform-unicode-property-regex": "^8.0.1",
         "@babel/preset-react": "^8.0.1",
+        "@eslint/js": "^10.0.1",
         "@pmmmwh/react-refresh-webpack-plugin": "^0.6.3",
         "@types/fs-extra": "^11.0.4",
         "@types/koa": "^3.0.3",
@@ -146,6 +146,8 @@
         "stylus": "^0.64.0",
         "stylus-loader": "^9.0.0",
         "supertest": "^7.3.1",
+        "svelte": "^5.57.2",
+        "svelte-loader": "^3.2.4",
         "typescript": "7.0.2",
         "vue": "^3.5.43",
         "vue-loader": "^17.4.2"

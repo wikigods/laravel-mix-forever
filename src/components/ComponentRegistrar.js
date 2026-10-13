@@ -20,6 +20,8 @@ let components = [
     'Autoload',
     'Alias',
     'Vue',
+    'Svelte',
+    'Ziggy',
     'React',
     'Preact',
     'Version',

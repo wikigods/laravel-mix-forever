@@ -37,20 +37,24 @@ module.exports = class Sass extends Preprocessor {
     /**
      * Build the plugin options for sass-loader.
      *
-     * @param {Object} pluginOptions
+     * @param {Record<string, any>} pluginOptions
      * @returns {Object}
      */
     pluginOptions(pluginOptions) {
-        return Object.assign(
-            {
-                sassOptions: {
-                    precision: 8,
-                    outputStyle: 'expanded'
-                }
+        const defaults = {
+            precision: 8,
+            outputStyle: 'expanded',
+            silenceDeprecations: ['color-functions', 'global-builtin', 'import']
+        };
+
+        return {
+            ...pluginOptions,
+            sassOptions: {
+                ...defaults,
+                ...(pluginOptions.sassOptions || {})
             },
-            pluginOptions,
-            { sourceMap: true }
-        );
+            sourceMap: true
+        };
     }
 
     chunkRegex() {

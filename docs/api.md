@@ -5,7 +5,7 @@ Below, you'll find the full Mix API. Out of the box, Mix supports a wide array o
 The methods below assume that you've imported `mix` at the top of your `webpack.mix.js` file, like so:
 
 ```js
-let mix = require('laravel-mix');
+let mix = require('laravel-mix-forever');
 ```
 
 ### `.js(src, output)`
@@ -32,12 +32,37 @@ Add support for Vue single file components.
 mix.js('src/file.js', 'dist/file.js').vue();
 ```
 
-Vue 2 and 3 differ slightly in how they should be bundled. Mix will do its best to check which
-version you currently have installed; however, if you wish, you can be explict.
+This package supports Vue 3 only. Calling `.vue()` enables it; the old
+`version: 3` option remains accepted for compatibility but is unnecessary.
+
+Set `hydrationMismatchDetails: true` only when you need Vue's production
+hydration mismatch diagnostics. It is disabled by default.
 
 ```js
-mix.js('src/file.js', 'dist/file.js').vue({ version: 2 });
+mix.js('src/file.js', 'dist/file.js').vue({ hydrationMismatchDetails: true });
 ```
+
+### `.ziggy(options?)`
+
+Generate Ziggy's Laravel route file before the Webpack build. By default it
+runs outside production and watches `routes/**/*.php` in watch mode.
+
+```js
+mix.js('resources/js/app.js', 'public/js').ziggy();
+```
+
+See [Ziggy with Mix/Webpack](ziggy.md) for options and security guidance.
+
+### `.svelte(options?)`
+
+Add support for Svelte single-file components compiled by Webpack.
+
+```js
+mix.js('src/file.js', 'dist/file.js').svelte();
+```
+
+Options are passed to `svelte-loader`, including `compilerOptions` and
+`preprocess`.
 
 ### `.react()`
 
