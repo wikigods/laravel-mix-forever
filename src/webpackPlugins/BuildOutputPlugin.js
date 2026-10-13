@@ -1,10 +1,31 @@
 const _ = require('lodash');
-const chalk = require('chalk');
+const { Chalk } = require('chalk');
+const chalk = new Chalk();
 const Table = require('cli-table3');
 const readline = require('readline');
-const stripAnsi = require('strip-ansi');
-const { formatSize } = require('webpack/lib/SizeFormatHelpers');
+const stripAnsiModule = require('strip-ansi');
+const stripAnsi = stripAnsiModule.default || stripAnsiModule;
 const { version } = require('../../package.json');
+
+/**
+ * Format an asset size without depending on Webpack's private helper modules.
+ * @param {number} size
+ * @returns {string}
+ */
+function formatSize(size) {
+    if (typeof size !== 'number' || Number.isNaN(size)) {
+        return 'unknown size';
+    }
+
+    if (size <= 0) {
+        return '0 bytes';
+    }
+
+    const units = ['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+    const index = Math.min(Math.floor(Math.log(size) / Math.log(1024)), units.length - 1);
+
+    return `${Number((size / 1024 ** index).toPrecision(3))} ${units[index]}`;
+}
 
 /**
  * @typedef {object} BuildOutputOptions

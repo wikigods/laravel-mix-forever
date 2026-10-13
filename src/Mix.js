@@ -100,7 +100,7 @@ class Mix {
         this.booted = true;
 
         // Load .env
-        Dotenv.config();
+        Dotenv.config({ quiet: true });
 
         // If we're using Laravel set the public path by default
         if (this.sees('laravel')) {

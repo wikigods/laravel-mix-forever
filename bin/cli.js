@@ -21,6 +21,7 @@ run().catch(err => {
 async function run() {
     const program = new Command();
 
+    program.allowExcessArguments();
     program.name('mix');
     program.version(pkg.version);
     program.option(
@@ -28,10 +29,11 @@ async function run() {
         'The path to your Mix configuration file.',
         'webpack.mix'
     );
-    program.option('--no-progress', 'Disable progress reporting', false);
+    program.option('--no-progress', 'Disable progress reporting');
 
     program
         .command('watch')
+        .allowExcessArguments()
         .description('Build and watch files for changes.')
         .option('--hot', 'Enable hot reloading.', false)
         .option('--https', 'Enable https.', false)
@@ -41,6 +43,7 @@ async function run() {
 
     program
         .command('build', { isDefault: true })
+        .allowExcessArguments()
         .description('Compile Mix.')
         .option('-p, --production', 'Run Mix in production mode.', false)
         .action((opts, cmd) =>

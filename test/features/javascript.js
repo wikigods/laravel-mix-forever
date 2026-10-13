@@ -96,6 +96,7 @@ test.serial('basic JS compilation config.', async t => {
             path: path.resolve(`test/fixtures/app/dist`),
             filename: '[name].js',
             chunkFilename: config.output.chunkFilename,
+            pathinfo: false,
             hashFunction: 'xxhash64',
             publicPath: '/'
         },
@@ -133,6 +134,7 @@ test('basic JS compilation with a different dist path', async t => {
             path: path.resolve('dist-html'),
             filename: '[name].js',
             chunkFilename: config.output.chunkFilename,
+            pathinfo: false,
             hashFunction: 'xxhash64',
             publicPath: '/'
         },

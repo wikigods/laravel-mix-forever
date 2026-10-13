@@ -61,16 +61,23 @@ module.exports = class Preprocessor extends Component {
             {
                 loader: this.context.resolve('css-loader'),
                 options: {
+                    esModule: this.context.config.assetModules,
                     /**
                      *
                      * @param {string} url
                      */
-                    url: url => {
-                        if (url.startsWith('/')) {
-                            return false;
-                        }
+                    url: {
+                        filter: url => {
+                            if (
+                                url.startsWith('/') ||
+                                url.startsWith('//') ||
+                                /^[a-z][a-z\d+.-]*:/i.test(url)
+                            ) {
+                                return false;
+                            }
 
-                        return processUrls;
+                            return processUrls;
+                        }
                     },
                     sourceMap: this.context.isUsing('sourcemaps'),
                     importLoaders: 1

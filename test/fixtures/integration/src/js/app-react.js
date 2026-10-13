@@ -1,8 +1,8 @@
 import { createElement } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ScssModuleReact } from './ScssModule.jsx';
 
 export function setupReactApp() {
     const domContainer = document.querySelector('#react-app');
-    ReactDOM.render(createElement(ScssModuleReact), domContainer);
+    createRoot(domContainer).render(createElement(ScssModuleReact));
 }

@@ -37,10 +37,16 @@ class CssWebpackConfig extends Component {
                 loader: {
                     loader: this.context.resolve('sass-loader'),
                     options: {
-                        sassOptions: {
-                            precision: 8,
-                            outputStyle: 'expanded'
-                        }
+                        sassOptions: loaderContext => ({
+                            style: 'expanded',
+                            syntax:
+                                /\.sass$/i.test(loaderContext.resourcePath) ||
+                                /(?:^|&)lang=sass(?:&|$)/.test(
+                                    loaderContext.resourceQuery
+                                )
+                                    ? 'indented'
+                                    : 'scss'
+                        })
                     }
                 }
             },
@@ -51,11 +57,16 @@ class CssWebpackConfig extends Component {
                 loader: {
                     loader: this.context.resolve('sass-loader'),
                     options: {
-                        sassOptions: {
-                            precision: 8,
-                            outputStyle: 'expanded',
-                            indentedSyntax: true
-                        }
+                        sassOptions: loaderContext => ({
+                            style: 'expanded',
+                            syntax:
+                                /\.sass$/i.test(loaderContext.resourcePath) ||
+                                /(?:^|&)lang=sass(?:&|$)/.test(
+                                    loaderContext.resourceQuery
+                                )
+                                    ? 'indented'
+                                    : 'scss'
+                        })
                     }
                 }
             },
@@ -91,6 +102,7 @@ class CssWebpackConfig extends Component {
                     use: this.createLoaderList(rule, {
                         mode: 'local',
                         auto: undefined,
+                        namedExport: false,
                         localIdentName:
                             this.context.config.cssModuleIdentifier || '[hash:base64]'
                     })
@@ -101,6 +113,7 @@ class CssWebpackConfig extends Component {
                     use: this.createLoaderList(rule, {
                         mode: 'local',
                         auto: true,
+                        namedExport: false,
                         localIdentName:
                             this.context.config.cssModuleIdentifier || '[hash:base64]'
                     })
@@ -126,15 +139,22 @@ class CssWebpackConfig extends Component {
             {
                 loader: this.context.resolve('css-loader'),
                 options: {
+                    esModule: this.context.config.assetModules,
                     /**
                      * @param {string} url
                      **/
-                    url: url => {
-                        if (url.startsWith('/')) {
-                            return false;
-                        }
+                    url: {
+                        filter: url => {
+                            if (
+                                url.startsWith('/') ||
+                                url.startsWith('//') ||
+                                /^[a-z][a-z\d+.-]*:/i.test(url)
+                            ) {
+                                return false;
+                            }
 
-                        return this.context.config.processCssUrls;
+                            return this.context.config.processCssUrls;
+                        }
                     },
                     modules: useCssModules
                 }
