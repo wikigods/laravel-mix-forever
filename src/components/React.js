@@ -17,11 +17,11 @@ module.exports = class React extends Component {
         if (this.supportsFastRefreshing()) {
             return dependencies.concat([
                 {
-                    package: '@pmmmwh/react-refresh-webpack-plugin@^0.5.0-rc.0',
+                    package: '@pmmmwh/react-refresh-webpack-plugin@^0.6.0',
                     check: name =>
                         semver.satisfies(
                             require(`${name}/package.json`).version,
-                            '^0.5.0-rc.0'
+                            '^0.6.0'
                         )
                 },
                 'react-refresh'
@@ -63,7 +63,7 @@ module.exports = class React extends Component {
 
         const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
-        return [new ReactRefreshPlugin({ overlay: { sockPath: 'ws' } })];
+        return [new ReactRefreshPlugin({ overlay: { sockIntegration: 'wds' } })];
     }
 
     /**

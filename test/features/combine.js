@@ -165,5 +165,7 @@ test.serial('combine with missing files throws an error', async t => {
         `test/fixtures/app/dist/all.css`
     );
 
-    await t.throwsAsync(() => webpack.compile(), { code: 'ENOENT' });
+    const error = await webpack.compile().catch(error => error);
+
+    t.is(error.code, 'ENOENT');
 });

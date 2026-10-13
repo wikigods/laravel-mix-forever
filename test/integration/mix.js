@@ -47,14 +47,12 @@ test.serial.beforeEach(async t => {
 
 test.serial.afterEach.always(async t => {
     /** @type {TestContext<TestContextMetadata>} */
-    const { metadata } = context(t, {
-        port: port++,
-        server: null,
-        logEvents: []
-    });
+    const { metadata } = context(t);
 
     if (metadata.server) {
-        await metadata.server.close();
+        metadata.server.closeAllConnections();
+        await new Promise(resolve => metadata.server.close(resolve));
+        metadata.server = null;
     }
 });
 
@@ -191,7 +189,11 @@ async function assertProducesLogs(t, logs) {
 
     events.push(page.goto(uri));
 
-    await Promise.all(events);
+    try {
+        await Promise.all(events);
+    } finally {
+        await page.close();
+    }
 
     t.pass();
 }

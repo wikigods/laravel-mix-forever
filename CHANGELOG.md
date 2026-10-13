@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.0 (unreleased)
+
+-   Require Node.js 22.20 or newer.
+-   Refresh build, CSS, Vue, React, and test dependencies while preserving the existing Mix features.
+-   Update React Fast Refresh integration for plugin 0.6 and webpack-dev-server 6.
+-   Add a nesting limit to the vendored `braces` dependency to prevent deeply nested patterns from exhausting the call stack.
+
 ## 6.0.14
 
 -   `BabelConfig.fetchBabelRc` / `static BabelConfig.default` / `static BabelConfig.generate` have all been deprecated. They are no longer used by Mix itself but remain for backwards compatability.
